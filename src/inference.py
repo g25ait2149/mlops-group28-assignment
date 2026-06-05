@@ -1,14 +1,9 @@
 import os
 from transformers import pipeline
-from huggingface_hub import login
 
-HF_TOKEN = os.getenv('HF_TOKEN', None)
 HF_MODEL = os.getenv('HF_MODEL_NAME',
                      'g25ait2149/mlops-group28-emotion-distilbert-iitj')
 INPUT_TEXT = os.getenv('INPUT_TEXT', 'I am feeling happy today!')
-
-if HF_TOKEN:
-    login(token=HF_TOKEN)
 
 print(f"Loading model: {HF_MODEL}")
 print(f"Input text   : {INPUT_TEXT}")
