@@ -26,7 +26,6 @@ jobs:
 
       - name: Run inference
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
           INPUT_TEXT: ${{ github.event.inputs.input_text }}
           HF_MODEL_NAME: g25ait2149/mlops-group28-emotion-distilbert-iitj
         run: python src/inference.py
