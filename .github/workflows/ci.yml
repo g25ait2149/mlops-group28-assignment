@@ -1,0 +1,40 @@
+name: CI — Lint and validate
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install flake8
+          pip install -r requirements.txt
+
+      - name: Run flake8 linter
+        run: |
+          flake8 src/ --max-line-length=120 --ignore=E402,W503
+
+      - name: Confirm all files present
+        run: |
+          echo "Checking required files exist..."
+          test -f Dockerfile && echo "Dockerfile found" || exit 1
+          test -f requirements.txt && echo "requirements.txt found" || exit 1
+          test -f src/inference.py && echo "inference.py found" || exit 1
+          test -f src/prepare_data.py && echo "prepare_data.py found" || exit 1
+          test -f src/load_model.py && echo "load_model.py found" || exit 1
+          test -f data/id2label.json && echo "id2label.json found" || exit 1
+          echo "All required files present!"
